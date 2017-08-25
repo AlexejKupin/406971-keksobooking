@@ -106,17 +106,17 @@ function creatAdvertData(a, t, p, ty, r, g, chi,cho, f, d, foto, x,y) {
 };
 
 for (i = 0; i <= 7 ; i++) {
-  var randAvatar = [Math.floor(Math.random() * avatar.length)];
-  var randTitle = [Math.floor(Math.random() * title.length)];
-  var randPrice = [Math.floor(Math.random() * prise.length)];
-  var randType = [Math.floor(Math.random() * type.length)];
-  var randRooms = [Math.floor(Math.random() * rooms.length)];
-  var randGuests = [Math.floor(Math.random() * guests.length)];
-  var randCheckin = [Math.floor(Math.random() * checkin.length)];
-  var randCheckout = [Math.floor(Math.random() * checkout.length)];
-  var randFeatures = [Math.floor(Math.random() * features.length)]; // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
-  var randlocationX = [Math.floor(Math.random() * locationX.length)]; 
-  var randlocationY = [Math.floor(Math.random() * locationY.length)]; 
+  var randAvatar = (Math.floor(Math.random() * avatar.length));
+  var randTitle = (Math.floor(Math.random() * title.length));
+  var randPrice = (Math.floor(Math.random() * prise.length));
+  var randType = (Math.floor(Math.random() * type.length));
+  var randRooms = (Math.floor(Math.random() * rooms.length));
+  var randGuests = (Math.floor(Math.random() * guests.length));
+  var randCheckin = (Math.floor(Math.random() * checkin.length));
+  var randCheckout = (Math.floor(Math.random() * checkout.length));
+  var randFeatures = (Math.floor(Math.random() * features.length)); // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
+  var randlocationX = (Math.floor(Math.random() * locationX.length)); 
+  var randlocationY = (Math.floor(Math.random() * locationY.length)); 
 
   advertData[i] = new creatAdvertData(avatar[randAvatar], title[randTitle], prise[randPrice], type[randType], rooms[randRooms], 
   	guests[randGuests], checkin[randCheckin],checkout[randCheckout], features[randFeatures],description, photos, locationX[randlocationX], locationY[randlocationY]);
@@ -126,11 +126,12 @@ for (i = 0; i <= 7 ; i++) {
 
   var newElement = document.createElement('div');
     newElement.className = 'pin';
-    newElement.innerHTML = 'style="left: {{locationX[randlocationX]}}px; top: {{locationY[randlocationY]}}px"'
-    newElement.innerHTML = '<img src=avatar[randAvatar] class="rounded" width="40" height="40">';
+    newElement.style.left = (locationX[randlocationX] - 35/2) + 'px';
+    newElement.style.top = (locationY[randlocationY] - 48) + 'px';
+    newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
 	
     fragment.appendChild(newElement);
+
  };
 
 tokyo__pinMap.appendChild(fragment);
-
