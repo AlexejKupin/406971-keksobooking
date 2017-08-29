@@ -126,8 +126,8 @@ for (i = 0; i <= 7 ; i++) {
 
   var newElement = document.createElement('div');
     newElement.className = 'pin';
-    newElement.style.left = (locationX[randlocationX] - 35/2) + 'px';
-    newElement.style.top = (locationY[randlocationY] - 48) + 'px';
+    newElement.style.left = (locationX[randlocationX] + 35/2) + 'px';
+    newElement.style.top = (locationY[randlocationY] + 48) + 'px';
     newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
 	
     fragment.appendChild(newElement);
@@ -135,3 +135,54 @@ for (i = 0; i <= 7 ; i++) {
  };
 
 tokyo__pinMap.appendChild(fragment);
+
+
+var lodgeTemplate = document.querySelector('#lodge-template');
+var dialogPanel = document.querySelector('.dialog__panel');
+
+
+
+var element = lodgeTemplate.content.cloneNode(true);
+
+
+var title = element.querySelector('.lodge__title');
+title.textContent = advertData[0].offer.title;
+
+var adress = element.querySelector('.lodge__address');
+adress.textContent = advertData[0].offer.adress;
+
+var price = element.querySelector('.lodge__price');
+price.textContent= advertData[0].offer.price +' /ночь';
+
+var getTypeOfAsets  = function () {
+	if (advertData[0].offer.type === 'flat') {
+		return 'Квартира';
+	} else if (advertData[0].offer.type === 'house') {
+         return 'Дом';
+	} else if (advertData[0].offer.type === 'bungalo') {
+         return 'Бунгало';
+	}
+};
+
+var type = element.querySelector('.lodge__type');
+type.textContent = getTypeOfAsets();
+
+var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
+roomsAndGuests.textContent = 'для ' + advertData[0].offer.guests + ' гостей в ' + advertData[0].offer.rooms + ' комнатах';
+
+var checkInOut = element.querySelector('.lodge__checkin-time');
+checkInOut.textContent = 'Заезд после ' + advertData[0].offer.checkin + ', выезд до ' + advertData[0].offer.checkout;
+
+var features = element.querySelector('.lodge__features');
+features.innerHTML = '<span class="feature__image  feature__image--' + advertData[0].offer.features +'"></span>';
+
+var description = element.querySelector('.lodge__description');
+description.textContent = advertData[0].offer.description;
+
+var offerDialog = document.querySelectorAll('#offer-dialog');
+
+offerDialog[0].replaceChild(element.children[0], dialogPanel);
+
+var dialogTitle = document.querySelectorAll('.dialog__title');
+dialogTitle.innerHTML = '<img src=' + advertData[0].author.avatar + ' alt="Avatar" width="70" height="70">';
+
