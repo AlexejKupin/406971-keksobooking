@@ -184,5 +184,10 @@ var offerDialog = document.querySelectorAll('#offer-dialog');
 offerDialog[0].replaceChild(element.children[0], dialogPanel);
 
 var dialogTitle = document.querySelectorAll('.dialog__title');
-dialogTitle.innerHTML = '<img src=' + advertData[0].author.avatar + ' alt="Avatar" width="70" height="70">';
 
+//dialogTitle.setAtrubute('src', ' + advertData[0].author.avatar + ');
+
+dialogTitle[0].innerHTML = '<img src = ' + advertData[0].author.avatar + ' alt="Avatar" width="70" height="70"> <a href="#" class="dialog__close"><img src="img/close.svg" alt="close" width="22" height="22"></a> ';
+
+//dialogTitle[0].children[0].
+// + advertData[0].author.avatar +
