@@ -1,7 +1,8 @@
+
 var avatar = [];
 var createAvatar = function(){
-  for (i = 1; i <= 8; i++) {
-    avatar[i] = 'img/avatars/user0'+ i +'.png';
+  for (i = 0; i < 8; i++)  {
+    avatar[i] = 'img/avatars/user0'+ (i+1) +'.png';
   } return avatar[i];
 };
 
@@ -57,6 +58,8 @@ var MIN_X = 300;
 var MAX_X= 900;
 var MIN_Y = 100;
 var MAX_Y= 500;
+var SIZE_OF_PIN_ICON_X = 35;
+var SIZE_OF_PIN_ICON_Y = 48;
 
 var creatLocationX = function() {
   for (i = 0; i <= 7; i++) {
@@ -114,23 +117,27 @@ for (i = 0; i <= 7 ; i++) {
   var randGuests = (Math.floor(Math.random() * guests.length));
   var randCheckin = (Math.floor(Math.random() * checkin.length));
   var randCheckout = (Math.floor(Math.random() * checkout.length));
-  var randFeatures = (Math.floor(Math.random() * features.length)); // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
+  var randFeatures = features.filter(function(item){
+    return ((Math.floor(Math.random() * features.length)) > 2);
+});  // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
   var randlocationX = (Math.floor(Math.random() * locationX.length)); 
   var randlocationY = (Math.floor(Math.random() * locationY.length)); 
 
+
   advertData[i] = new creatAdvertData(avatar[randAvatar], title[randTitle], prise[randPrice], type[randType], rooms[randRooms], 
-  	guests[randGuests], checkin[randCheckin],checkout[randCheckout], features[randFeatures],description, photos, locationX[randlocationX], locationY[randlocationY]);
+  	guests[randGuests], checkin[randCheckin],checkout[randCheckout], randFeatures,description, photos, locationX[randlocationX], locationY[randlocationY]);
 
-  avatar.splice(randAvatar,1);
-  title.splice(randTitle,1);
-
-  var newElement = document.createElement('div');
+   var newElement = document.createElement('div');
     newElement.className = 'pin';
-    newElement.style.left = (locationX[randlocationX] + 35/2) + 'px';
-    newElement.style.top = (locationY[randlocationY] + 48) + 'px';
+    newElement.style.left = (locationX[randlocationX] + SIZE_OF_PIN_ICON_X/2) + 'px';
+    newElement.style.top = (locationY[randlocationY] + SIZE_OF_PIN_ICON_Y) + 'px';
     newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
 	
     fragment.appendChild(newElement);
+
+
+  avatar.splice(randAvatar,1);
+  title.splice(randTitle,1);
 
  };
 
@@ -183,11 +190,11 @@ var offerDialog = document.querySelectorAll('#offer-dialog');
 
 offerDialog[0].replaceChild(element.children[0], dialogPanel);
 
-var dialogTitle = document.querySelectorAll('.dialog__title');
+var dialogTitle = document.querySelector('.dialog__title');
 
-//dialogTitle.setAtrubute('src', ' + advertData[0].author.avatar + ');
+dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
 
-dialogTitle[0].innerHTML = '<img src = ' + advertData[0].author.avatar + ' alt="Avatar" width="70" height="70"> <a href="#" class="dialog__close"><img src="img/close.svg" alt="close" width="22" height="22"></a> ';
+//dialogTitle[0].innerHTML = '<img src = ' + advertData[0].author.avatar + ' alt="Avatar" width="70" height="70"> <a href="#" class="dialog__close"><img src="img/close.svg" alt="close" width="22" height="22"></a> ';
 
 //dialogTitle[0].children[0].
 // + advertData[0].author.avatar +
