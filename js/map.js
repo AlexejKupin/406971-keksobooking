@@ -233,7 +233,7 @@ var fillInPin = function(n) {
   dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
 }
 
-var pin = document.querySelectorAll('.pin');
+//var pin = document.querySelectorAll('.pin');
 
 tokyo__pinMap.addEventListener('click', function(event) {
   var target = event.target;
@@ -246,3 +246,4 @@ tokyo__pinMap.addEventListener('click', function(event) {
     }
     target = target.parentNode;
   }
+});// узнать как заполнить номер пина.... для заполнения fillInPin(n);
