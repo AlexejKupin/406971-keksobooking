@@ -158,7 +158,7 @@ var adress = element.querySelector('.lodge__address');
 adress.textContent = advertData[0].offer.adress;
 
 var price = element.querySelector('.lodge__price');
-price.textContent= advertData[0].offer.price +' /ночь';
+price.textContent= advertData[0].offer.price + '/ночь';
 
 var getTypeOfAsets = function() {
   if (advertData[0].offer.type === 'flat') {
@@ -191,9 +191,68 @@ offerDialog[0].replaceChild(element.children[0], dialogPanel);
 var dialogTitle = document.querySelector('.dialog__title');
 dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
 
-var pin = document.querySelectorAll('.pin');
+//4-е задание: 
 
-pin.addEventListener('click', function() {
-  pin.classList.add('pin--active');
-});
 
+var fillInPin = function(n) {
+  tokyo__pinMap.appendChild(fragment);
+
+  var lodgeTemplate = document.querySelector('#lodge-template');
+  var dialogPanel = document.querySelector('.dialog__panel');
+
+  var element = lodgeTemplate.content.cloneNode(true);
+  var title = element.querySelector('.lodge__title');
+  title.textContent = advertData[n].offer.title;
+  var adress = element.querySelector('.lodge__address');
+  adress.textContent = advertData[n].offer.adress;
+  var price = element.querySelector('.lodge__price');
+  price.textContent= advertData[n].offer.price +'/ночь';
+
+  var getTypeOfAsets = function(n) {
+  if (advertData[n].offer.type === 'flat') {
+    return 'Квартира';
+  } else if (advertData[n].offer.type === 'house') {
+    return 'Дом';
+  } else if (advertData[n].offer.type === 'bungalo') {
+    return 'Бунгало';
+  }
+  };
+  var type = element.querySelector('.lodge__type');
+  type.textContent = getTypeOfAsets(n);
+  var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
+  roomsAndGuests.textContent = 'для ' + advertData[n].offer.guests + ' гостей в ' + advertData[n].offer.rooms + ' комнатах';
+  var checkInOut = element.querySelector('.lodge__checkin-time');
+  checkInOut.textContent = 'Заезд после ' + advertData[n].offer.checkin + ', выезд до ' + advertData[n].offer.checkout;
+  var features = element.querySelector('.lodge__features');
+  features.innerHTML = '<span class="feature__image  feature__image--' + advertData[n].offer.features +'"></span>';
+  var description = element.querySelector('.lodge__description');
+  description.textContent = advertData[n].offer.description;
+  var offerDialog = document.querySelectorAll('#offer-dialog');
+  offerDialog[0].replaceChild(element.children[0], dialogPanel);
+  var dialogTitle = document.querySelector('.dialog__title');
+  dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
+}
+
+
+var pin = document.querySelectorAll('.pin'); 
+
+for (i = 0; i < pin.length - 1 ; ++i) { 
+pin[i].addEventListener('click', function() { 
+  pin[i].classList.add('pin--active'); 
+  return
+  }); 
+};
+
+
+/*tokyo__pinMap.addEventListener('click', function(event) {
+  var target = event.target;
+
+  while (target != tokyo__pinMap) {
+    if (target.className == 'pin') {
+       target.classList.add('pin--active');
+       //fillInPin(n);
+      return;
+    }
+    target = target.parentNode;
+  }
+});// узнать как заполнить номер пина.... для заполнения fillInPin(n);*/
