@@ -233,17 +233,26 @@ var fillInPin = function(n) {
   dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
 }
 
-//var pin = document.querySelectorAll('.pin');
 
-tokyo__pinMap.addEventListener('click', function(event) {
+var pin = document.querySelectorAll('.pin'); 
+
+for (i = 0; i < pin.length - 1 ; ++i) { 
+pin[i].addEventListener('click', function() { 
+  pin[i].classList.add('pin--active'); 
+  return
+  }); 
+};
+
+
+/*tokyo__pinMap.addEventListener('click', function(event) {
   var target = event.target;
 
   while (target != tokyo__pinMap) {
     if (target.className == 'pin') {
        target.classList.add('pin--active');
-       fillInPin(n);
+       //fillInPin(n);
       return;
     }
     target = target.parentNode;
   }
-});// узнать как заполнить номер пина.... для заполнения fillInPin(n);
+});// узнать как заполнить номер пина.... для заполнения fillInPin(n);*/
