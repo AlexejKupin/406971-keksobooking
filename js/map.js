@@ -114,6 +114,7 @@ function creatAdvertData(a, t, p, ty, r, g, chi, cho, f, d, foto, x, y) {
 };
 
 for (i = 0; i <= 7; i++) {
+  var numberItem = i;
   var randAvatar = (Math.floor(Math.random() * avatar.length));
   var randTitle = (Math.floor(Math.random() * title.length));
   var randPrice = (Math.floor(Math.random() * prise.length));
@@ -133,6 +134,7 @@ for (i = 0; i <= 7; i++) {
     guests[randGuests], checkin[randCheckin], checkout[randCheckout], randFeatures, description, photos, locationX[randlocationX], locationY[randlocationY]);
 
   var newElement = document.createElement('div');
+  newElement.setAttribute('data', numberItem);
   newElement.className = 'pin';
   newElement.style.left = (locationX[randlocationX] + SIZE_OF_PIN_ICON_X / 2) + 'px';
   newElement.style.top = (locationY[randlocationY] + SIZE_OF_PIN_ICON_Y) + 'px';
@@ -233,26 +235,33 @@ var fillInPin = function(n) {
   dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
 }
 
+var selectedTd;
 
-var pin = document.querySelectorAll('.pin'); 
-
-for (i = 0; i < pin.length - 1 ; ++i) { 
-pin[i].addEventListener('click', function() { 
-  pin[i].classList.add('pin--active'); 
-  return
-  }); 
-};
-
-
-/*tokyo__pinMap.addEventListener('click', function(event) {
+tokyo__pinMap.addEventListener('click', function(event) {
   var target = event.target;
 
   while (target != tokyo__pinMap) {
     if (target.className == 'pin') {
-       target.classList.add('pin--active');
-       //fillInPin(n);
+      highlight(target);
+      fillInPin(target.getAttribute('data'));
       return;
     }
     target = target.parentNode;
   }
-});// узнать как заполнить номер пина.... для заполнения fillInPin(n);*/
+});
+
+var highlight = function(node) {
+  if (selectedTd) {
+    selectedTd.classList.remove('pin--active');
+  }
+  selectedTd = node;
+  selectedTd.classList.add('pin--active');
+};
+
+var dialogClose = document.querySelector('.dialog__close');
+var dialog = document.querySelector('.dialog');
+
+
+dialogClose.addEventListener('click', function() {
+  dialog.classList.add('hidden');
+});
