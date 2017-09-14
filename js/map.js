@@ -192,6 +192,9 @@ var offerDialog = document.querySelectorAll('#offer-dialog');
 offerDialog[0].replaceChild(element.children[0], dialogPanel);
 
 var dialogTitle = document.querySelector('.dialog__title');
+<<<<<<< HEAD
+dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
+=======
 dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
 
 //4-е задание: 
@@ -282,3 +285,4 @@ tokyo__pinMap.addEventListener('keydown', function(event) {
   }
   target = target.parentNode;
 });
+>>>>>>> refs/remotes/origin/master
