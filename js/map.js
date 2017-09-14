@@ -114,6 +114,7 @@ function creatAdvertData(a, t, p, ty, r, g, chi, cho, f, d, foto, x, y) {
 };
 
 for (i = 0; i <= 7; i++) {
+  var numberItem = i;
   var randAvatar = (Math.floor(Math.random() * avatar.length));
   var randTitle = (Math.floor(Math.random() * title.length));
   var randPrice = (Math.floor(Math.random() * prise.length));
@@ -137,6 +138,8 @@ for (i = 0; i <= 7; i++) {
   newElement.style.left = (locationX[randlocationX] + SIZE_OF_PIN_ICON_X / 2) + 'px';
   newElement.style.top = (locationY[randlocationY] + SIZE_OF_PIN_ICON_Y) + 'px';
   newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
+  newElement.setAttribute('data', numberItem);
+  newElement.setAttribute('tabindex', 0);
 
   fragment.appendChild(newElement);
   avatar.splice(randAvatar, 1);
@@ -158,7 +161,7 @@ var adress = element.querySelector('.lodge__address');
 adress.textContent = advertData[0].offer.adress;
 
 var price = element.querySelector('.lodge__price');
-price.textContent= advertData[0].offer.price +' /ночь';
+price.textContent= advertData[0].offer.price + '/ночь';
 
 var getTypeOfAsets = function() {
   if (advertData[0].offer.type === 'flat') {
@@ -189,4 +192,97 @@ var offerDialog = document.querySelectorAll('#offer-dialog');
 offerDialog[0].replaceChild(element.children[0], dialogPanel);
 
 var dialogTitle = document.querySelector('.dialog__title');
+<<<<<<< HEAD
 dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
+=======
+dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
+
+//4-е задание: 
+
+
+var fillInDialog = function(n) {
+  tokyo__pinMap.appendChild(fragment);
+
+  var lodgeTemplate = document.querySelector('#lodge-template');
+  var dialogPanel = document.querySelector('.dialog__panel');
+
+  var element = lodgeTemplate.content.cloneNode(true);
+  var title = element.querySelector('.lodge__title');
+  title.textContent = advertData[n].offer.title;
+  var adress = element.querySelector('.lodge__address');
+  adress.textContent = advertData[n].offer.adress;
+  var price = element.querySelector('.lodge__price');
+  price.textContent= advertData[n].offer.price +'/ночь';
+
+  var getTypeOfAsets = function(n) {
+  if (advertData[n].offer.type === 'flat') {
+    return 'Квартира';
+  } else if (advertData[n].offer.type === 'house') {
+    return 'Дом';
+  } else if (advertData[n].offer.type === 'bungalo') {
+    return 'Бунгало';
+  }
+  };
+  var type = element.querySelector('.lodge__type');
+  type.textContent = getTypeOfAsets(n);
+  var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
+  roomsAndGuests.textContent = 'для ' + advertData[n].offer.guests + ' гостей в ' + advertData[n].offer.rooms + ' комнатах';
+  var checkInOut = element.querySelector('.lodge__checkin-time');
+  checkInOut.textContent = 'Заезд после ' + advertData[n].offer.checkin + ', выезд до ' + advertData[n].offer.checkout;
+  var features = element.querySelector('.lodge__features');
+  features.innerHTML = '<span class="feature__image  feature__image--' + advertData[n].offer.features +'"></span>';
+  var description = element.querySelector('.lodge__description');
+  description.textContent = advertData[n].offer.description;
+  var offerDialog = document.querySelectorAll('#offer-dialog');
+  offerDialog[0].replaceChild(element.children[0], dialogPanel);
+  var dialogTitle = document.querySelector('.dialog__title');
+  dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
+};
+
+var selectedPin;
+var dialogClose = document.querySelector('.dialog__close');
+var dialog = document.querySelector('.dialog');
+
+tokyo__pinMap.addEventListener('click', function(event) {
+  var target = event.target;
+  while (target != tokyo__pinMap) {
+    if (target.className == 'pin') {
+      highlight(target);
+      fillInDialog(target.getAttribute('data'));
+      return;
+    }
+    target = target.parentNode;
+  }
+});
+
+var highlight = function(node) {
+  if (selectedPin) {
+    selectedPin.classList.remove('pin--active');
+  }
+  selectedPin = node;
+  selectedPin.classList.add('pin--active');
+  dialog.classList.remove('hidden');
+};
+
+dialogClose.addEventListener('click', function() {
+  dialog.classList.add('hidden');
+  selectedPin.classList.remove('pin--active');
+});
+
+document.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === 27) {
+    dialog.classList.add('hidden');
+    selectedPin.classList.remove('pin--active');
+  }
+});
+
+tokyo__pinMap.addEventListener('keydown', function(event) {
+  var target = event.target;
+  if (event.keyCode === 13) {
+    highlight(target);
+    fillInDialog(target.getAttribute('data'));
+    return;
+  }
+  target = target.parentNode;
+});
+>>>>>>> refs/remotes/origin/master
