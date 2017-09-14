@@ -190,10 +190,3 @@ offerDialog[0].replaceChild(element.children[0], dialogPanel);
 
 var dialogTitle = document.querySelector('.dialog__title');
 dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
-
-var pin = document.querySelectorAll('.pin');
-
-pin.addEventListener('click', function() {
-  pin.classList.add('pin--active');
-});
-
