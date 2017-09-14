@@ -134,11 +134,12 @@ for (i = 0; i <= 7; i++) {
     guests[randGuests], checkin[randCheckin], checkout[randCheckout], randFeatures, description, photos, locationX[randlocationX], locationY[randlocationY]);
 
   var newElement = document.createElement('div');
-  newElement.setAttribute('data', numberItem);
   newElement.className = 'pin';
   newElement.style.left = (locationX[randlocationX] + SIZE_OF_PIN_ICON_X / 2) + 'px';
   newElement.style.top = (locationY[randlocationY] + SIZE_OF_PIN_ICON_Y) + 'px';
   newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
+  newElement.setAttribute('data', numberItem);
+  newElement.setAttribute('tabindex', 0);
 
   fragment.appendChild(newElement);
   avatar.splice(randAvatar, 1);
@@ -196,7 +197,7 @@ dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
 //4-е задание: 
 
 
-var fillInPin = function(n) {
+var fillInDialog = function(n) {
   tokyo__pinMap.appendChild(fragment);
 
   var lodgeTemplate = document.querySelector('#lodge-template');
@@ -233,17 +234,18 @@ var fillInPin = function(n) {
   offerDialog[0].replaceChild(element.children[0], dialogPanel);
   var dialogTitle = document.querySelector('.dialog__title');
   dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
-}
+};
 
-var selectedTd;
+var selectedPin;
+var dialogClose = document.querySelector('.dialog__close');
+var dialog = document.querySelector('.dialog');
 
 tokyo__pinMap.addEventListener('click', function(event) {
   var target = event.target;
-
   while (target != tokyo__pinMap) {
     if (target.className == 'pin') {
       highlight(target);
-      fillInPin(target.getAttribute('data'));
+      fillInDialog(target.getAttribute('data'));
       return;
     }
     target = target.parentNode;
@@ -251,17 +253,32 @@ tokyo__pinMap.addEventListener('click', function(event) {
 });
 
 var highlight = function(node) {
-  if (selectedTd) {
-    selectedTd.classList.remove('pin--active');
+  if (selectedPin) {
+    selectedPin.classList.remove('pin--active');
   }
-  selectedTd = node;
-  selectedTd.classList.add('pin--active');
+  selectedPin = node;
+  selectedPin.classList.add('pin--active');
+  dialog.classList.remove('hidden');
 };
-
-var dialogClose = document.querySelector('.dialog__close');
-var dialog = document.querySelector('.dialog');
-
 
 dialogClose.addEventListener('click', function() {
   dialog.classList.add('hidden');
+  selectedPin.classList.remove('pin--active');
+});
+
+document.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === 27) {
+    dialog.classList.add('hidden');
+    selectedPin.classList.remove('pin--active');
+  }
+});
+
+tokyo__pinMap.addEventListener('keydown', function(event) {
+  var target = event.target;
+  if (event.keyCode === 13) {
+    highlight(target);
+    fillInDialog(target.getAttribute('data'));
+    return;
+  }
+  target = target.parentNode;
 });
