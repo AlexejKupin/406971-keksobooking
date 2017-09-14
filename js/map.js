@@ -113,22 +113,27 @@ function creatAdvertData(a, t, p, ty, r, g, chi, cho, f, d, foto, x, y) {
   };
 };
 
-for (i = 0; i <= 7; i++) {
-  var numberItem = i;
-  var randAvatar = (Math.floor(Math.random() * avatar.length));
-  var randTitle = (Math.floor(Math.random() * title.length));
-  var randPrice = (Math.floor(Math.random() * prise.length));
-  var randType = (Math.floor(Math.random() * type.length));
-  var randRooms = (Math.floor(Math.random() * rooms.length));
-  var randGuests = (Math.floor(Math.random() * guests.length));
-  var randCheckin = (Math.floor(Math.random() * checkin.length));
-  var randCheckout = (Math.floor(Math.random() * checkout.length));
-  var randFeatures = features.filter(function(item) {
-    return ((Math.floor(Math.random() * features.length)) > 2);
-  }); // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
-  var randlocationX = (Math.floor(Math.random() * locationX.length));
-  var randlocationY = (Math.floor(Math.random() * locationY.length));
+var randomData = function(arrayData) {
+ return Math.floor(Math.random() * arrayData.length)
+}; 
 
+
+for (i = 0; i <= 7; i++) {
+
+  var numberItem = i;
+  var randAvatar = randomData(avatar);
+  var randTitle = randomData(title);
+  var randPrice = randomData(prise);
+  var randType = randomData(type);
+  var randRooms = randomData(rooms);
+  var randGuests = randomData(guests);
+  var randCheckin = randomData(checkin);
+  var randCheckout = randomData(checkout);
+  var randFeatures = features.filter(function(item) {
+    return (randomData(features) > 2);
+  }); // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
+  var randlocationX = randomData(locationX);
+  var randlocationY = randomData(locationY);
 
   advertData[i] = new creatAdvertData(avatar[randAvatar], title[randTitle], prise[randPrice], type[randType], rooms[randRooms],
     guests[randGuests], checkin[randCheckin], checkout[randCheckout], randFeatures, description, photos, locationX[randlocationX], locationY[randlocationY]);
