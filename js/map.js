@@ -90,26 +90,28 @@ var fragment = document.createDocumentFragment();
 
 function creatAdvertData() {
   this.author = {
-    "avatar": avatar[randAvatar],
+    "avatar": avatar[randomData(avatar)],
   };
 
   this.offer = {
-    "title": title[randTitle],
-    "adress": ('{{' + locationX[randlocationX] + '}}, {{' + locationY[randlocationY] + '}}'),
-    "price": prise[randPrice],
-    "type": type[randType],
-    "rooms": rooms[randRooms],
-    "guests": guests[randGuests],
-    "checkin": checkin[randCheckin],
-    "checkout": checkout[randCheckout],
-    "features": randFeatures,
+    "title": title[randomData(title)],
+    "adress": ('{{' + locationX[randomData(locationX)] + '}}, {{' + locationY[randomData(locationY)] + '}}'),
+    "price": prise[randomData(prise)],
+    "type": type[randomData(type)],
+    "rooms": rooms[randomData(rooms)],
+    "guests": guests[randomData(guests)],
+    "checkin": checkin[randomData(checkin)],
+    "checkout": checkout[randomData(checkout)],
+    "features": features.filter(function(item) {
+      return (randomData(features) > 1);
+     }), // выбирает несколько фишек, только вот иконку показывает одну :((
     "description": description,
     "photos": photos,
   };
 
   this.location = {
-    "x": locationX[randlocationX],
-    "y": locationY[randlocationY],
+    "x": locationX[randomData(locationX)],
+    "y": locationY[randomData(locationY)],
   };
 };
 
@@ -119,36 +121,20 @@ var randomData = function(arrayData) {
 
 
 for (i = 0; i <= 7; i++) {
-
   var numberItem = i;
-  var randAvatar = randomData(avatar);
-  var randTitle = randomData(title);
-  var randPrice = randomData(prise);
-  var randType = randomData(type);
-  var randRooms = randomData(rooms);
-  var randGuests = randomData(guests);
-  var randCheckin = randomData(checkin);
-  var randCheckout = randomData(checkout);
-  var randFeatures = features.filter(function(item) {
-    return (randomData(features) > 1);
-  }); // выбирает несколько фишек, только вот иконку показывает одну :((
-  var randlocationX = randomData(locationX);
-  var randlocationY = randomData(locationY);
 
   advertData[i] = new creatAdvertData();
 
   var newElement = document.createElement('div');
   newElement.className = 'pin';
-  newElement.style.left = (locationX[randlocationX] + SIZE_OF_PIN_ICON_X / 2) + 'px';
-  newElement.style.top = (locationY[randlocationY] + SIZE_OF_PIN_ICON_Y) + 'px';
-  newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
+  newElement.style.left = (locationX[randomData(locationX)] + SIZE_OF_PIN_ICON_X / 2) + 'px';
+  newElement.style.top = (locationY[randomData(locationY)] + SIZE_OF_PIN_ICON_Y) + 'px';
+  newElement.innerHTML = '<img src=' + avatar[randomData(avatar)] + ' class="rounded" width="40" height="40">';
   newElement.setAttribute('data', numberItem);
   newElement.setAttribute('tabindex', 0);
-
   fragment.appendChild(newElement);
-  avatar.splice(randAvatar, 1);
-  title.splice(randTitle, 1);
-
+  avatar.splice(randomData(avatar), 1);
+  title.splice(randomData(title), 1);
 };
 
 tokyo__pinMap.appendChild(fragment);
@@ -167,18 +153,14 @@ adress.textContent = advertData[0].offer.adress;
 var price = element.querySelector('.lodge__price');
 price.textContent= advertData[0].offer.price +'₽'+'/ночь';
 
-var getTypeOfAssets = function() {
-  if (advertData[0].offer.type === 'flat') {
-    return 'Квартира';
-  } else if (advertData[0].offer.type === 'house') {
-    return 'Дом';
-  } else if (advertData[0].offer.type === 'bungalo') {
-    return 'Бунгало';
-  }
+var typeOfAssetsKeys = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало',
 };
 
 var type = element.querySelector('.lodge__type');
-type.textContent = getTypeOfAssets();
+type.textContent = typeOfAssetsKeys[advertData[0].offer.type];
 
 var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
 roomsAndGuests.textContent = 'для ' + advertData[0].offer.guests + ' гостей в ' + advertData[0].offer.rooms + ' комнатах';
