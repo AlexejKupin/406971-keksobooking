@@ -165,7 +165,7 @@ var adress = element.querySelector('.lodge__address');
 adress.textContent = advertData[0].offer.adress;
 
 var price = element.querySelector('.lodge__price');
-price.textContent= advertData[0].offer.price + '/ночь';
+price.textContent= advertData[0].offer.price +'₽'+'/ночь';
 
 var getTypeOfAssets = function() {
   if (advertData[0].offer.type === 'flat') {
