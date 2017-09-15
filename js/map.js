@@ -88,14 +88,19 @@ var advertData = {};
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 
-function creatAdvertData() {
+function AdvertData() {
   this.author = {
     "avatar": avatar[randomData(avatar)],
   };
 
+  this.location = {
+    "x": locationX[randomData(locationX)],
+    "y": locationY[randomData(locationY)],
+  };
+
   this.offer = {
     "title": title[randomData(title)],
-    "adress": ('{{' + locationX[randomData(locationX)] + '}}, {{' + locationY[randomData(locationY)] + '}}'),
+    "adress": ('{{' + this.location.x + '}}, {{' + this.location.y + '}}'),
     "price": prise[randomData(prise)],
     "type": type[randomData(type)],
     "rooms": rooms[randomData(rooms)],
@@ -108,11 +113,6 @@ function creatAdvertData() {
     "description": description,
     "photos": photos,
   };
-
-  this.location = {
-    "x": locationX[randomData(locationX)],
-    "y": locationY[randomData(locationY)],
-  };
 };
 
 var randomData = function(arrayData) {
@@ -123,17 +123,18 @@ var randomData = function(arrayData) {
 for (i = 0; i <= 7; i++) {
   var numberItem = i;
 
-  advertData[i] = new creatAdvertData();
+  advertData[i] = new AdvertData();
 
   var newElement = document.createElement('div');
   newElement.className = 'pin';
-  newElement.style.left = (locationX[randomData(locationX)] + SIZE_OF_PIN_ICON_X / 2) + 'px';
-  newElement.style.top = (locationY[randomData(locationY)] + SIZE_OF_PIN_ICON_Y) + 'px';
-  newElement.innerHTML = '<img src=' + avatar[randomData(avatar)] + ' class="rounded" width="40" height="40">';
+  newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
+  newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
+  newElement.innerHTML = '<img src=' + advertData[i]["author"]["avatar"] + ' class="rounded" width="40" height="40">';
   newElement.setAttribute('data', numberItem);
   newElement.setAttribute('tabindex', 0);
   fragment.appendChild(newElement);
-  avatar.splice(randomData(avatar), 1);
+  
+  avatar.splice(advertData[i]["author"]["avatar"], 1);
   title.splice(randomData(title), 1);
 };
 
