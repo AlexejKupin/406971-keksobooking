@@ -81,16 +81,31 @@ var creatLocationY = function() {
 }
 creatLocationY();
 
+
+var randomData = function(arrayData) {
+ return Math.floor(Math.random() * arrayData.length)
+}; 
 var advertData = {};
 
+var randomAvatar = [];
+var creatRandomAvatar = function() {
+  for (i = 0; i < 8; i++) {
+    a = randomData(avatar)
+    randomAvatar[i] = avatar[a];
+    avatar.splice(a, 1);
+  }
+  return randomAvatar[i];
+};
 
+creatRandomAvatar();
 
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 
 function AdvertData() {
+  
   this.author = {
-    "avatar": avatar[randomData(avatar)],
+    "avatar": randomAvatar[i],
   };
 
   this.location = {
@@ -115,11 +130,6 @@ function AdvertData() {
   };
 };
 
-var randomData = function(arrayData) {
- return Math.floor(Math.random() * arrayData.length)
-}; 
-
-
 for (i = 0; i <= 7; i++) {
   var numberItem = i;
 
@@ -129,12 +139,11 @@ for (i = 0; i <= 7; i++) {
   newElement.className = 'pin';
   newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
   newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
-  newElement.innerHTML = '<img src=' + advertData[i]["author"]["avatar"] + ' class="rounded" width="40" height="40">';
+  newElement.innerHTML = '<img src=' + randomAvatar[i] + ' class="rounded" width="40" height="40">';
   newElement.setAttribute('data', numberItem);
   newElement.setAttribute('tabindex', 0);
   fragment.appendChild(newElement);
-  
-  avatar.splice(advertData[i]["author"]["avatar"], 1);
+ 
   title.splice(randomData(title), 1);
 };
 
