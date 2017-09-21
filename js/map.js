@@ -1,13 +1,19 @@
+var generateRandomAvatars = function(amount) {
+  var avatars = [];
 
-var avatar = [];
-var createAvatar = function() {
-  for (i = 0; i < 8; i++)  {
-    avatar[i] = 'img/avatars/user0'+ (i+1) +'.png';
-  }
-  return avatar[i];
+  for (i = 0; i < amount; i++)  {
+    avatars[i] = 'img/avatars/user0'+ (i+1) +'.png';
+  };
+
+  var shuffle = function (a, b) {
+    return Math.random() - 0.5;
+  };
+
+  return avatars.sort(shuffle);
 };
 
-createAvatar();
+var avatars = generateRandomAvatars(8);
+
 
 var title = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
 var adress = ["{{location.x}}, {{location.y}}"];
@@ -87,21 +93,13 @@ var randomData = function(arrayData) {
 }; 
 var advertData = {};
 
-var randomAvatar = [];
-
-var shuffle = function (a, b) {
-  return Math.random() - 0.5;
-};
-
-randomAvatar = avatar.sort(shuffle);
-
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 
 var AdvertData = function() {
   
   this.author = {
-    "avatar": randomAvatar[i],
+    "avatar": avatars[i],
   };
 
   this.location = {
@@ -137,7 +135,7 @@ var generateAdvert = function() {
     newElement.className = 'pin';
     newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
     newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
-    newElement.innerHTML = '<img src=' + randomAvatar[i] + ' class="rounded" width="40" height="40">';
+    newElement.innerHTML = '<img src=' + avatars[i] + ' class="rounded" width="40" height="40">';
     newElement.setAttribute('data', numberItem);
     newElement.setAttribute('tabindex', 0);
     fragment.appendChild(newElement);
