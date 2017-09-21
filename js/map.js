@@ -14,78 +14,31 @@ var generateRandomAvatars = function(amount) {
 
 var avatars = generateRandomAvatars(8);
 
-
 var title = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
-var adress = ["{{location.x}}, {{location.y}}"];
-var prise = []
 
-var MIN_PRISE = 1000;
-var MAX_PRISE = 1000000;
-
-var createPrise = function() {
-  for (i = 0; i <= 7; i++) {
-    prise[i] = Math.floor(Math.random() * (MAX_PRISE - MIN_PRISE + 1)) + MIN_PRISE;
-  }
-  return prise[i];
+var randomFromInterval = function(min, max) {
+  return (Math.floor(Math.random() * (max - min + 1)) + min);
 };
 
-createPrise();
 
 var type = ['flat', 'house', 'bungalo'];
-
+var MIN_PRISE = 1000;
+var MAX_PRISE = 1000000;
 var MIN_ROOMS = 1;
 var MAX_ROOMS = 5;
-var rooms = [];
-var creatRooms = function() {
-  for (i = 0; i <= 7; i++) {
-    rooms[i] = Math.floor(Math.random() * (MAX_ROOMS - MIN_ROOMS + 1)) + MIN_ROOMS;
-  }
-  return rooms[i];
-}
-creatRooms();
-
-var guests = [];
-
-var MIN_GUESTS = 1;
-var MAX_GUESTS = 15;
-var creatGuests = function() {
-  for (i = 0; i <= 7; i++) {
-    guests[i] = Math.floor(Math.random() * (MAX_GUESTS - MIN_GUESTS + 1)) + MIN_GUESTS;
-  }
-  return guests[i];
-}
-creatGuests();
-
 var checkin = ['12:00', '13:00', '14:00'];
 var checkout = ['12:00', '13:00', '14:00'];
 var features = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
 var description = '';
 var photos = [];
-var locationX = [];
-var locationY = [];
 var MIN_X = 300;
 var MAX_X= 900;
 var MIN_Y = 100;
 var MAX_Y= 500;
 var SIZE_OF_PIN_ICON_X = 35;
 var SIZE_OF_PIN_ICON_Y = 48;
-
-var creatLocationX = function() {
-  for (i = 0; i <= 7; i++) {
-    locationX[i] = Math.floor(Math.random() * (MAX_X - MIN_X + 1)) + MIN_X; 
-  }
-  return locationX[i];
-}
-creatLocationX();
-
-
-var creatLocationY = function() {
-  for (i = 0; i <= 7; i++) {
-    locationY[i] = Math.floor(Math.random() * (MAX_Y - MIN_Y + 1)) + MIN_Y; 
-  }
-  return locationY[i];
-}
-creatLocationY();
+var MIN_GUESTS = 1;
+var MAX_GUESTS = 15;
 
 
 var randomData = function(arrayData) {
@@ -103,17 +56,17 @@ var AdvertData = function() {
   };
 
   this.location = {
-    "x": locationX[randomData(locationX)],
-    "y": locationY[randomData(locationY)],
+    "x": randomFromInterval(MIN_X, MAX_X),
+    "y": randomFromInterval(MIN_Y, MAX_Y),
   };
 
   this.offer = {
     "title": title[randomData(title)],
     "adress": ('{{' + this.location.x + '}}, {{' + this.location.y + '}}'),
-    "price": prise[randomData(prise)],
+    "price": randomFromInterval(MIN_PRISE, MAX_PRISE),
     "type": type[randomData(type)],
-    "rooms": rooms[randomData(rooms)],
-    "guests": guests[randomData(guests)],
+    "rooms": randomFromInterval(MIN_ROOMS, MAX_ROOMS),
+    "guests": randomFromInterval(MIN_GUESTS, MAX_GUESTS),
     "checkin": checkin[randomData(checkin)],
     "checkout": checkout[randomData(checkout)],
     "features": features.filter(function(item) {
@@ -139,13 +92,11 @@ var generateAdvert = function() {
     newElement.setAttribute('data', numberItem);
     newElement.setAttribute('tabindex', 0);
     fragment.appendChild(newElement);
-
     title.splice(randomData(title), 1);
   };
 };
 
 generateAdvert();
-
 
 tokyo__pinMap.appendChild(fragment);
 
