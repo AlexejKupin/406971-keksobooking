@@ -90,7 +90,6 @@ var advertData = {};
 var randomAvatar = [];
 
 var shuffle = function (a, b) {
-  debugger
   return Math.random() - 0.5;
 };
 
@@ -99,7 +98,7 @@ randomAvatar = avatar.sort(shuffle);
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 
-function AdvertData() {
+var AdvertData = function() {
   
   this.author = {
     "avatar": randomAvatar[i],
@@ -127,22 +126,28 @@ function AdvertData() {
   };
 };
 
-for (i = 0; i <= 7; i++) {
-  var numberItem = i;
 
-  advertData[i] = new AdvertData();
+var generateAdvert = function() {
+  for (i = 0; i <= 7; i++) {
+    var numberItem = i;
 
-  var newElement = document.createElement('div');
-  newElement.className = 'pin';
-  newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
-  newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
-  newElement.innerHTML = '<img src=' + randomAvatar[i] + ' class="rounded" width="40" height="40">';
-  newElement.setAttribute('data', numberItem);
-  newElement.setAttribute('tabindex', 0);
-  fragment.appendChild(newElement);
- 
-  title.splice(randomData(title), 1);
+    advertData[i] = new AdvertData();
+
+    var newElement = document.createElement('div');
+    newElement.className = 'pin';
+    newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
+    newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
+    newElement.innerHTML = '<img src=' + randomAvatar[i] + ' class="rounded" width="40" height="40">';
+    newElement.setAttribute('data', numberItem);
+    newElement.setAttribute('tabindex', 0);
+    fragment.appendChild(newElement);
+
+    title.splice(randomData(title), 1);
+  };
 };
+
+generateAdvert();
+
 
 tokyo__pinMap.appendChild(fragment);
 
