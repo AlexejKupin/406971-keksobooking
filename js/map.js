@@ -88,16 +88,13 @@ var randomData = function(arrayData) {
 var advertData = {};
 
 var randomAvatar = [];
-var creatRandomAvatar = function() {
-  for (i = 0; i < 8; i++) {
-    a = randomData(avatar)
-    randomAvatar[i] = avatar[a];
-    avatar.splice(a, 1);
-  }
-  return randomAvatar[i];
+
+var shuffle = function (a, b) {
+  debugger
+  return Math.random() - 0.5;
 };
 
-creatRandomAvatar();
+randomAvatar = avatar.sort(shuffle);
 
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
