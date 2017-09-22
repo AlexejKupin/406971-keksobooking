@@ -81,71 +81,73 @@ var creatLocationY = function() {
 }
 creatLocationY();
 
+
+var randomData = function(arrayData) {
+ return Math.floor(Math.random() * arrayData.length)
+}; 
 var advertData = {};
 
+var randomAvatar = [];
 
+var shuffle = function (a, b) {
+  return Math.random() - 0.5;
+};
+
+randomAvatar = avatar.sort(shuffle);
 
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
 
-function creatAdvertData(a, t, p, ty, r, g, chi, cho, f, d, foto, x, y) {
+var AdvertData = function() {
+  
   this.author = {
-    "avatar": a,
-  };
-
-  this.offer = {
-    "title": t,
-    "adress": ('{{' + locationX[randlocationX] + '}}, {{' + locationY[randlocationY] + '}}'),
-    "price": p,
-    "type": ty,
-    "rooms": r,
-    "guests": g,
-    "checkin": chi,
-    "checkout": cho,
-    "features": f,
-    "description": d,
-    "photos": foto,
+    "avatar": randomAvatar[i],
   };
 
   this.location = {
-    "x": x,
-    "y": y,
+    "x": locationX[randomData(locationX)],
+    "y": locationY[randomData(locationY)],
+  };
+
+  this.offer = {
+    "title": title[randomData(title)],
+    "adress": ('{{' + this.location.x + '}}, {{' + this.location.y + '}}'),
+    "price": prise[randomData(prise)],
+    "type": type[randomData(type)],
+    "rooms": rooms[randomData(rooms)],
+    "guests": guests[randomData(guests)],
+    "checkin": checkin[randomData(checkin)],
+    "checkout": checkout[randomData(checkout)],
+    "features": features.filter(function(item) {
+      return (randomData(features) > 1);
+     }), // выбирает несколько фишек, только вот иконку показывает одну :((
+    "description": description,
+    "photos": photos,
   };
 };
 
-for (i = 0; i <= 7; i++) {
-  var numberItem = i;
-  var randAvatar = (Math.floor(Math.random() * avatar.length));
-  var randTitle = (Math.floor(Math.random() * title.length));
-  var randPrice = (Math.floor(Math.random() * prise.length));
-  var randType = (Math.floor(Math.random() * type.length));
-  var randRooms = (Math.floor(Math.random() * rooms.length));
-  var randGuests = (Math.floor(Math.random() * guests.length));
-  var randCheckin = (Math.floor(Math.random() * checkin.length));
-  var randCheckout = (Math.floor(Math.random() * checkout.length));
-  var randFeatures = features.filter(function(item) {
-    return ((Math.floor(Math.random() * features.length)) > 2);
-  }); // надо доработать этот рандом, чтобы выбирал случано по несколько фишек!!! но пока так
-  var randlocationX = (Math.floor(Math.random() * locationX.length));
-  var randlocationY = (Math.floor(Math.random() * locationY.length));
 
+var generateAdvert = function() {
+  for (i = 0; i <= 7; i++) {
+    var numberItem = i;
 
-  advertData[i] = new creatAdvertData(avatar[randAvatar], title[randTitle], prise[randPrice], type[randType], rooms[randRooms],
-    guests[randGuests], checkin[randCheckin], checkout[randCheckout], randFeatures, description, photos, locationX[randlocationX], locationY[randlocationY]);
+    advertData[i] = new AdvertData();
 
-  var newElement = document.createElement('div');
-  newElement.className = 'pin';
-  newElement.style.left = (locationX[randlocationX] + SIZE_OF_PIN_ICON_X / 2) + 'px';
-  newElement.style.top = (locationY[randlocationY] + SIZE_OF_PIN_ICON_Y) + 'px';
-  newElement.innerHTML = '<img src=' + avatar[randAvatar] + ' class="rounded" width="40" height="40">';
-  newElement.setAttribute('data', numberItem);
-  newElement.setAttribute('tabindex', 0);
+    var newElement = document.createElement('div');
+    newElement.className = 'pin';
+    newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
+    newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
+    newElement.innerHTML = '<img src=' + randomAvatar[i] + ' class="rounded" width="40" height="40">';
+    newElement.setAttribute('data', numberItem);
+    newElement.setAttribute('tabindex', 0);
+    fragment.appendChild(newElement);
 
-  fragment.appendChild(newElement);
-  avatar.splice(randAvatar, 1);
-  title.splice(randTitle, 1);
-
+    title.splice(randomData(title), 1);
+  };
 };
+
+generateAdvert();
+
 
 tokyo__pinMap.appendChild(fragment);
 
@@ -161,20 +163,16 @@ var adress = element.querySelector('.lodge__address');
 adress.textContent = advertData[0].offer.adress;
 
 var price = element.querySelector('.lodge__price');
-price.textContent= advertData[0].offer.price + '/ночь';
+price.textContent= advertData[0].offer.price +'₽'+'/ночь';
 
-var getTypeOfAsets = function() {
-  if (advertData[0].offer.type === 'flat') {
-    return 'Квартира';
-  } else if (advertData[0].offer.type === 'house') {
-    return 'Дом';
-  } else if (advertData[0].offer.type === 'bungalo') {
-    return 'Бунгало';
-  }
+var typeOfAssetsKeys = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало',
 };
 
 var type = element.querySelector('.lodge__type');
-type.textContent = getTypeOfAsets();
+type.textContent = typeOfAssetsKeys[advertData[0].offer.type];
 
 var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
 roomsAndGuests.textContent = 'для ' + advertData[0].offer.guests + ' гостей в ' + advertData[0].offer.rooms + ' комнатах';
@@ -193,92 +191,3 @@ offerDialog[0].replaceChild(element.children[0], dialogPanel);
 
 var dialogTitle = document.querySelector('.dialog__title');
 dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
-
-//4-е задание: 
-
-
-var fillInDialog = function(n) {
-  tokyo__pinMap.appendChild(fragment);
-
-  var lodgeTemplate = document.querySelector('#lodge-template');
-  var dialogPanel = document.querySelector('.dialog__panel');
-
-  var element = lodgeTemplate.content.cloneNode(true);
-  var title = element.querySelector('.lodge__title');
-  title.textContent = advertData[n].offer.title;
-  var adress = element.querySelector('.lodge__address');
-  adress.textContent = advertData[n].offer.adress;
-  var price = element.querySelector('.lodge__price');
-  price.textContent= advertData[n].offer.price +'/ночь';
-
-  var getTypeOfAsets = function(n) {
-  if (advertData[n].offer.type === 'flat') {
-    return 'Квартира';
-  } else if (advertData[n].offer.type === 'house') {
-    return 'Дом';
-  } else if (advertData[n].offer.type === 'bungalo') {
-    return 'Бунгало';
-  }
-  };
-  var type = element.querySelector('.lodge__type');
-  type.textContent = getTypeOfAsets(n);
-  var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
-  roomsAndGuests.textContent = 'для ' + advertData[n].offer.guests + ' гостей в ' + advertData[n].offer.rooms + ' комнатах';
-  var checkInOut = element.querySelector('.lodge__checkin-time');
-  checkInOut.textContent = 'Заезд после ' + advertData[n].offer.checkin + ', выезд до ' + advertData[n].offer.checkout;
-  var features = element.querySelector('.lodge__features');
-  features.innerHTML = '<span class="feature__image  feature__image--' + advertData[n].offer.features +'"></span>';
-  var description = element.querySelector('.lodge__description');
-  description.textContent = advertData[n].offer.description;
-  var offerDialog = document.querySelectorAll('#offer-dialog');
-  offerDialog[0].replaceChild(element.children[0], dialogPanel);
-  var dialogTitle = document.querySelector('.dialog__title');
-  dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
-};
-
-var selectedPin;
-var dialogClose = document.querySelector('.dialog__close');
-var dialog = document.querySelector('.dialog');
-
-tokyo__pinMap.addEventListener('click', function(event) {
-  var target = event.target;
-  while (target != tokyo__pinMap) {
-    if (target.className == 'pin') {
-      highlight(target);
-      fillInDialog(target.getAttribute('data'));
-      return;
-    }
-    target = target.parentNode;
-  }
-});
-
-var highlight = function(node) {
-  if (selectedPin) {
-    selectedPin.classList.remove('pin--active');
-  }
-  selectedPin = node;
-  selectedPin.classList.add('pin--active');
-  dialog.classList.remove('hidden');
-};
-
-dialogClose.addEventListener('click', function() {
-  dialog.classList.add('hidden');
-  selectedPin.classList.remove('pin--active');
-});
-
-document.addEventListener('keydown', function(evt) {
-  if (evt.keyCode === 27) {
-    dialog.classList.add('hidden');
-    selectedPin.classList.remove('pin--active');
-  }
-});
-
-tokyo__pinMap.addEventListener('keydown', function(event) {
-  var target = event.target;
-  if (event.keyCode === 13) {
-    highlight(target);
-    fillInDialog(target.getAttribute('data'));
-    return;
-  }
-  target = target.parentNode;
-});
