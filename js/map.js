@@ -17,19 +17,21 @@ var SIZE_OF_PIN_ICON_Y = 48;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 15;
 var title = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
-
+var advertData = {};
+var typeOfAssetsKeys = {
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало',
+};
 
 var generateRandomAvatars = function(amount) {
   var avatars = [];
-
   for (i = 0; i < amount; i++)  {
     avatars[i] = 'img/avatars/user0'+ (i+1) +'.png';
   };
-
   var shuffle = function (a, b) {
     return Math.random() - 0.5;
   };
-
   return avatars.sort(shuffle);
 };
 
@@ -42,7 +44,6 @@ var randomFromInterval = function(min, max) {
 var randomData = function(arrayData) {
  return Math.floor(Math.random() * arrayData.length)
 }; 
-var advertData = {};
 
 var tokyo__pinMap = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
@@ -115,12 +116,6 @@ adress.textContent = advertData[0].offer.adress;
 
 var price = element.querySelector('.lodge__price');
 price.textContent= advertData[0].offer.price +'₽'+'/ночь';
-
-var typeOfAssetsKeys = {
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало',
-};
 
 var type = element.querySelector('.lodge__type');
 type.textContent = typeOfAssetsKeys[advertData[0].offer.type];
