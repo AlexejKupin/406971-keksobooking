@@ -1,26 +1,3 @@
-var generateRandomAvatars = function(amount) {
-  var avatars = [];
-
-  for (i = 0; i < amount; i++)  {
-    avatars[i] = 'img/avatars/user0'+ (i+1) +'.png';
-  };
-
-  var shuffle = function (a, b) {
-    return Math.random() - 0.5;
-  };
-
-  return avatars.sort(shuffle);
-};
-
-var avatars = generateRandomAvatars(8);
-
-var title = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
-
-var randomFromInterval = function(min, max) {
-  return (Math.floor(Math.random() * (max - min + 1)) + min);
-};
-
-
 var type = ['flat', 'house', 'bungalo'];
 var MIN_PRISE = 1000;
 var MAX_PRISE = 1000000;
@@ -39,7 +16,28 @@ var SIZE_OF_PIN_ICON_X = 35;
 var SIZE_OF_PIN_ICON_Y = 48;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 15;
+var title = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
 
+
+var generateRandomAvatars = function(amount) {
+  var avatars = [];
+
+  for (i = 0; i < amount; i++)  {
+    avatars[i] = 'img/avatars/user0'+ (i+1) +'.png';
+  };
+
+  var shuffle = function (a, b) {
+    return Math.random() - 0.5;
+  };
+
+  return avatars.sort(shuffle);
+};
+
+var avatars = generateRandomAvatars(8);
+
+var randomFromInterval = function(min, max) {
+  return (Math.floor(Math.random() * (max - min + 1)) + min);
+};
 
 var randomData = function(arrayData) {
  return Math.floor(Math.random() * arrayData.length)
@@ -69,14 +67,13 @@ var AdvertData = function() {
     "guests": randomFromInterval(MIN_GUESTS, MAX_GUESTS),
     "checkin": checkin[randomData(checkin)],
     "checkout": checkout[randomData(checkout)],
-    "features": features.filter(function(item) {
-      return (randomData(features) > 1);
-     }), // выбирает несколько фишек, только вот иконку показывает одну :((
+    "features": features.filter(function(number) {
+      return (Math.random() > 0.5);
+     }), 
     "description": description,
     "photos": photos,
   };
 };
-
 
 var generateAdvert = function() {
   for (i = 0; i <= 7; i++) {
@@ -85,10 +82,15 @@ var generateAdvert = function() {
     advertData[i] = new AdvertData();
 
     var newElement = document.createElement('div');
+    var img = document.createElement('img');
     newElement.className = 'pin';
     newElement.style.left = (advertData[i]["location"]["x"] + SIZE_OF_PIN_ICON_X / 2) + 'px';
     newElement.style.top = (advertData[i]["location"]["y"] + SIZE_OF_PIN_ICON_Y) + 'px';
-    newElement.innerHTML = '<img src=' + avatars[i] + ' class="rounded" width="40" height="40">';
+    newElement.appendChild(img);
+    img.setAttribute('width', 40);
+    img.setAttribute('height', 40);
+    img.className = "rounded";
+    img.setAttribute('src', avatars[i]);
     newElement.setAttribute('data', numberItem);
     newElement.setAttribute('tabindex', 0);
     fragment.appendChild(newElement);
@@ -130,7 +132,12 @@ var checkInOut = element.querySelector('.lodge__checkin-time');
 checkInOut.textContent = 'Заезд после ' + advertData[0].offer.checkin + ', выезд до ' + advertData[0].offer.checkout;
 
 var features = element.querySelector('.lodge__features');
-features.innerHTML = '<span class="feature__image  feature__image--' + advertData[0].offer.features +'"></span>';
+
+for (i = 0; i <= advertData[0].offer.features.length - 1; i++) {
+  var span = document.createElement('span');
+  span.className = 'feature__image  feature__image--'+ advertData[0].offer.features[i];
+  features.appendChild(span);
+};
 
 var description = element.querySelector('.lodge__description');
 description.textContent = advertData[0].offer.description;
