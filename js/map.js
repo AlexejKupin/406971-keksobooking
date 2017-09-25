@@ -101,44 +101,84 @@ var generateAdvert = function() {
 
 generateAdvert();
 
-tokyo__pinMap.appendChild(fragment);
-
+var fillInDialog = function(n) { 
+var lodgeTemplate = document.querySelector('#lodge-template');
+var element = lodgeTemplate.content.cloneNode(true);
+var lodgeTitle = element.querySelector('.lodge__title');
 var lodgeTemplate = document.querySelector('#lodge-template');
 var dialogPanel = document.querySelector('.dialog__panel');
-
-var element = lodgeTemplate.content.cloneNode(true);
-
-var title = element.querySelector('.lodge__title');
-title.textContent = advertData[0].offer.title;
-
-var adress = element.querySelector('.lodge__address');
-adress.textContent = advertData[0].offer.adress;
-
-var price = element.querySelector('.lodge__price');
-price.textContent= advertData[0].offer.price +'₽'+'/ночь';
-
-var type = element.querySelector('.lodge__type');
-type.textContent = typeOfAssetsKeys[advertData[0].offer.type];
-
+var lodgeAdress = element.querySelector('.lodge__address');
+var lodgePrice = element.querySelector('.lodge__price');
+var lodgeType = element.querySelector('.lodge__type');
 var roomsAndGuests = element.querySelector('.lodge__rooms-and-guests');
-roomsAndGuests.textContent = 'для ' + advertData[0].offer.guests + ' гостей в ' + advertData[0].offer.rooms + ' комнатах';
-
 var checkInOut = element.querySelector('.lodge__checkin-time');
-checkInOut.textContent = 'Заезд после ' + advertData[0].offer.checkin + ', выезд до ' + advertData[0].offer.checkout;
-
 var features = element.querySelector('.lodge__features');
+var offerDialog = document.querySelectorAll('#offer-dialog');
+var dialogTitle = document.querySelector('.dialog__title');
 
-for (i = 0; i <= advertData[0].offer.features.length - 1; i++) {
+tokyo__pinMap.appendChild(fragment);
+lodgeTitle.textContent = advertData[n].offer.title;
+lodgeAdress.textContent = advertData[n].offer.adress;
+lodgePrice.textContent= advertData[n].offer.price +'₽'+'/ночь';
+lodgeType.textContent = typeOfAssetsKeys[advertData[n].offer.type];
+roomsAndGuests.textContent = 'для ' + advertData[n].offer.guests + ' гостей в ' + advertData[n].offer.rooms + ' комнатах';
+checkInOut.textContent = 'Заезд после ' + advertData[n].offer.checkin + ', выезд до ' + advertData[n].offer.checkout;
+
+for (i = 0; i <= advertData[n].offer.features.length - 1; i++) {
   var span = document.createElement('span');
-  span.className = 'feature__image  feature__image--'+ advertData[0].offer.features[i];
+  span.className = 'feature__image  feature__image--'+ advertData[n].offer.features[i];
   features.appendChild(span);
 };
 
-var description = element.querySelector('.lodge__description');
-description.textContent = advertData[0].offer.description;
-
-var offerDialog = document.querySelectorAll('#offer-dialog');
+description.textContent = advertData[n].offer.description;
 offerDialog[0].replaceChild(element.children[0], dialogPanel);
+dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
+};
 
-var dialogTitle = document.querySelector('.dialog__title');
-dialogTitle.children[0].setAttribute('src', advertData[0].author.avatar);
+fillInDialog(0);
+
+var selectedPin;
+var dialogClose = document.querySelector('.dialog__close');
+var dialog = document.querySelector('.dialog');
+
+tokyo__pinMap.addEventListener('click', function(event) {
+  var target = event.target;
+  while (target != tokyo__pinMap) {
+    if (target.className == 'pin') {
+      highlight(target);
+      fillInDialog(target.getAttribute('data'));
+    }
+    target = target.parentNode;
+  }
+});
+
+var highlight = function(node) {
+  if (selectedPin) {
+    selectedPin.classList.remove('pin--active');
+  }
+  selectedPin = node;
+  selectedPin.classList.add('pin--active');
+  dialog.classList.remove('hidden');
+};
+
+dialogClose.addEventListener('click', function() {
+  dialog.classList.add('hidden');
+  selectedPin.classList.remove('pin--active');
+});
+
+document.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === 27) {
+    dialog.classList.add('hidden');
+    selectedPin.classList.remove('pin--active');
+  }
+});
+
+tokyo__pinMap.addEventListener('keydown', function(event) {
+  var target = event.target;
+  if (event.keyCode === 13) {
+    highlight(target);
+    fillInDialog(target.getAttribute('data'));
+    return;
+  }
+  target = target.parentNode;
+});
