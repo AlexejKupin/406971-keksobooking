@@ -23,6 +23,11 @@ var typeOfAssetsKeys = {
   house: 'Дом',
   bungalo: 'Бунгало',
 };
+var selectedPin;
+var dialogClose = document.querySelector('.dialog__close');
+var dialog = document.querySelector('.dialog');
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var generateRandomAvatars = function(amount) {
   var avatars = [];
@@ -137,45 +142,58 @@ dialogTitle.children[0].setAttribute('src', advertData[n].author.avatar);
 
 fillInDialog(0);
 
-var selectedPin;
-var dialogClose = document.querySelector('.dialog__close');
-var dialog = document.querySelector('.dialog');
-
 tokyo__pinMap.addEventListener('click', function(event) {
   var target = event.target;
   while (target != tokyo__pinMap) {
     if (target.className == 'pin') {
       highlight(target);
       fillInDialog(target.getAttribute('data'));
+      return;
     }
     target = target.parentNode;
   }
 });
 
-var highlight = function(node) {
-  if (selectedPin) {
-    selectedPin.classList.remove('pin--active');
-  }
-  selectedPin = node;
-  selectedPin.classList.add('pin--active');
+var removePinActiveClass = function () {
+  selectedPin.classList.remove('pin--active');
+};
+
+var addPinActiveClass = function () {
+  selectedPin.classList.remove('pin--active');
+};
+
+var addDialogHiddenClass = function () {
+  dialog.classList.add('hidden');
+};
+
+var removeDialogHiddenClass =  function () {
   dialog.classList.remove('hidden');
 };
 
+var highlight = function(node) {
+  if (selectedPin) {
+    removePinActiveClass();
+  }
+  selectedPin = node;
+  addPinActiveClass();
+  removeDialogHiddenClass();
+};
+
 dialogClose.addEventListener('click', function() {
-  dialog.classList.add('hidden');
-  selectedPin.classList.remove('pin--active');
+  addDialogHiddenClass();
+  removePinActiveClass();
 });
 
-document.addEventListener('keydown', function(evt) {
-  if (evt.keyCode === 27) {
-    dialog.classList.add('hidden');
-    selectedPin.classList.remove('pin--active');
+tokyo__pinMap.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    addDialogHiddenClass();
+    removePinActiveClass();
   }
 });
 
-tokyo__pinMap.addEventListener('keydown', function(event) {
-  var target = event.target;
-  if (event.keyCode === 13) {
+tokyo__pinMap.addEventListener('keydown', function(evt) {
+  var target = evt.target;
+  if (evt.keyCode === ENTER_KEYCODE) {
     highlight(target);
     fillInDialog(target.getAttribute('data'));
     return;
