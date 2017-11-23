@@ -251,29 +251,6 @@ var roomNumber = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
 
 roomNumber.addEventListener('change', function(evt) {
-  for (i = 0; i < capacity.children.length; i++) {
-    capacity[i].setAttribute("disabled", "true");
-  };
-
-  var target = evt.target;
-  if (target.value === "1") {
-    capacity[2].removeAttribute("disabled");
-  } else if (target.value === "2") {
-    capacity[2].removeAttribute("disabled");
-    capacity[1].removeAttribute("disabled");
-  } else if (target.value === "3") {
-    capacity[2].removeAttribute("disabled");
-    capacity[1].removeAttribute("disabled");
-    capacity[0].removeAttribute("disabled");
-  } else if (target.value === "100") {
-    capacity[3].removeAttribute("disabled");
-  }
-});
-
-var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
-
-roomNumber.addEventListener('change', function(evt) {
   capacity.selectedIndex = -1;
   for (i = 0; i < capacity.children.length; i++) {
     capacity[i].setAttribute("disabled", "true");
@@ -294,8 +271,9 @@ roomNumber.addEventListener('change', function(evt) {
   }
 });
 
-/*capacity.addEventListener('change', function(evt) {
-  //roomNumber.selectedIndex = -1;
+/*
+capacity.addEventListener('change', function(evt) {
+  roomNumber.selectedIndex = -1;
   for (i = 0; i < capacity.children.length; i++ ) {
   capacity[i].removeAttribute("disabled");
   };
