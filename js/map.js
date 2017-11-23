@@ -208,27 +208,27 @@ timeIn.addEventListener('change', function(evt) {
   var target = evt.target;
   if (target.value === "14:00") {
     timeOut.selectedIndex = 2;
-    } else if (target.value === "13:00") {
-      timeOut.selectedIndex = 1;
-      } else {
-       timeOut.selectedIndex = 0;
-       };
+  } else if (target.value === "13:00") {
+    timeOut.selectedIndex = 1;
+  } else {
+    timeOut.selectedIndex = 0;
+  };
 });
 
 timeOut.addEventListener('change', function(evt) {
   var target = evt.target;
   if (target.value === "14:00") {
     timeIn.selectedIndex = 2;
-    } else if (target.value === "13:00") {
-      timeIn.selectedIndex = 1;
-      } else {
-       timeIn.selectedIndex = 0;
-       };
+  } else if (target.value === "13:00") {
+    timeIn.selectedIndex = 1;
+  } else {
+    timeIn.selectedIndex = 0;
+  };
 });
 
 
 var type = document.querySelector('#type');
-var price = document.querySelector('#price'); 
+var price = document.querySelector('#price');
 
 type.addEventListener('change', function(evt) {
   var target = evt.target;
@@ -238,64 +238,42 @@ type.addEventListener('change', function(evt) {
   } else if (target.value === "bungalo") {
     price.setAttribute("min", "0");
     price.setAttribute("placeholder", "0");
-    } else if (target.value === "house") {
-      price.setAttribute("min", "5000");
-      price.setAttribute("placeholder", "5000");
-      } else if (target.value === "palace") {
-        price.setAttribute("min", "10000");
-        price.setAttribute("placeholder", "10000");
-        }
+  } else if (target.value === "house") {
+    price.setAttribute("min", "5000");
+    price.setAttribute("placeholder", "5000");
+  } else if (target.value === "palace") {
+    price.setAttribute("min", "10000");
+    price.setAttribute("placeholder", "10000");
+  }
 });
 
 var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity'); 
-
-roomNumber.addEventListener('change', function(evt) {
-  for (i = 0; i < capacity.children.length; i++ ) {
-    capacity[i].setAttribute("disabled", "true");
-  };
-
-  var target = evt.target;
-    if (target.value === "1") {
-    capacity[2].removeAttribute("disabled");
-    } else if (target.value === "2") {
-      capacity[2].removeAttribute("disabled");
-      capacity[1].removeAttribute("disabled");
-      } else if (target.value === "3") {
-        capacity[2].removeAttribute("disabled");
-        capacity[1].removeAttribute("disabled");
-        capacity[0].removeAttribute("disabled");
-        } else if (target.value === "100") {
-          capacity[3].removeAttribute("disabled");
-          }
-});
-
-var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity'); 
+var capacity = document.querySelector('#capacity');
 
 roomNumber.addEventListener('change', function(evt) {
   capacity.selectedIndex = -1;
-  for (i = 0; i < capacity.children.length; i++ ) {
+  for (i = 0; i < capacity.children.length; i++) {
     capacity[i].setAttribute("disabled", "true");
   };
 
   var target = evt.target;
-    if (target.value === "1") {
+  if (target.value === "1") {
     capacity[2].removeAttribute("disabled");
-    } else if (target.value === "2") {
-      capacity[2].removeAttribute("disabled");
-      capacity[1].removeAttribute("disabled");
-      } else if (target.value === "3") {
-        capacity[2].removeAttribute("disabled");
-        capacity[1].removeAttribute("disabled");
-        capacity[0].removeAttribute("disabled");
-        } else if (target.value === "100") {
-          capacity[3].removeAttribute("disabled");
-          }
+  } else if (target.value === "2") {
+    capacity[2].removeAttribute("disabled");
+    capacity[1].removeAttribute("disabled");
+  } else if (target.value === "3") {
+    capacity[2].removeAttribute("disabled");
+    capacity[1].removeAttribute("disabled");
+    capacity[0].removeAttribute("disabled");
+  } else if (target.value === "100") {
+    capacity[3].removeAttribute("disabled");
+  }
 });
 
-/*capacity.addEventListener('change', function(evt) {
-  //roomNumber.selectedIndex = -1;
+/*
+capacity.addEventListener('change', function(evt) {
+  roomNumber.selectedIndex = -1;
   for (i = 0; i < capacity.children.length; i++ ) {
   capacity[i].removeAttribute("disabled");
   };
